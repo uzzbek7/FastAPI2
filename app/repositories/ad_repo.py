@@ -18,7 +18,8 @@ def get_all(
     ad_status: str | None,
     category: str | None,
     title: str | None,
-    price: int | None,
+    pricemin: int | None,
+    pricemax: int | None,
     create_at: date | None,
     is_adult: bool | None,
     page: int,
@@ -35,8 +36,8 @@ def get_all(
             )
         else:
             query = query.where(Advertisement.title.ilike(f"%{search_text}%"))
-    if price is not None:
-        query = query.where(Advertisement.price == price)
+    if pricemin is not None and pricemax is not None and pricemin > pricemax:
+        query = query.where(pricemin <= Advertisement.price <= pricemax)
     if create_at is not None:
         query = query.where(func.date(Advertisement.created_at) == create_at.isoformat())
     if is_adult is not None:
