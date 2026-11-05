@@ -15,6 +15,7 @@ router = APIRouter(prefix="/api/search", tags=["search"])
 def search_advertisements(
     ad_status: AdStatus | None = Query(default=None, alias="status"),
     title: str | None = Query(default=None, min_length=1),
+    price: int | None = Query(default=None, ge=0),
     pricemin: int | None = Query(default=None, ge=0),
     pricemax: int | None = Query(default=None, ge=0),
     create_at: date | None = Query(default=None),
@@ -27,6 +28,7 @@ def search_advertisements(
         db,
         ad_status=ad_status,
         title=title,
+        price=price,
         pricemin=pricemin,
         pricemax=pricemax,
         create_at=create_at,
